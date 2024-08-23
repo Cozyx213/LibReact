@@ -116,7 +116,7 @@ function NewsComponent(Post: Post) {
 }
 
 export function Post() {
-  const url = "http://127.0.0.1:8000/fetch/";
+  const url = "https://anhslink.pythonanywhere.com/fetch/";
   const [post, setPost] = useState<Post[]>([]);
   async function getPost() {
     try {

@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import axios from "axios";
-import Temperature  from "./request";
-import { Post } from "./request";
+import Temperature  from "./api";
+import { Post } from "./api";
+
 function BookList() {
   return (
     <div className="booklist">
@@ -109,16 +109,7 @@ function Landing() {
           <p className="text-lg text-green-700">News and Updates</p>
         </div>
 
-        <div className="border-red-200 rounded-lg bg-white hidden">
-          <button id="left" className="size-40">
-            {" "}
-            &#10094;
-          </button>
-          <button id="right" className="size-40">
-            {" "}
-            &#10095;{" "}
-          </button>
-        </div>
+        
         <Post/>
       </div>
     </div>
