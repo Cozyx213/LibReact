@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import getTime from "./helper";
 const url = "https://icanhazdadjoke.com";
 
 const url2 = "https://api.open-meteo.com/v1/forecast";
@@ -14,6 +15,7 @@ const parameters = {
 const stringifiedParams: Record<string, string> = Object.fromEntries(
   Object.entries(parameters).map(([key, value]) => [key, String(value)])
 );
+
 const queryString = new URLSearchParams(stringifiedParams).toString();
 const weatherUrl = `${url2}?${queryString}`;
 
@@ -29,14 +31,13 @@ const Temperature: React.FC = () => {
       });
       const temp = response.data.current_weather.temperature;
       setData(temp);
-      if (temp>33){
-    setColor("text-red-600")
-      }else if (temp>30){
-setColor("text-orange-600")
-      }else{
-setColor("text-green-600")
+      if (temp > 33) {
+        setColor("text-red-600");
+      } else if (temp > 30) {
+        setColor("text-orange-600");
+      } else {
+        setColor("text-green-600");
       }
-      
     } catch (error: any) {
       console.log(error.response);
     }
@@ -76,4 +77,67 @@ setColor("text-green-600")
     </div>
   );
 };
+interface Post {
+  id: number;
+  created_at: "string";
+  slug: string;
+  title: string;
+  description: string;
+  author: {
+    username: string;
+  };
+}
+function NewsComponent(Post: Post) {
+  const { id, title, created_at, slug, description, author } = Post;
+  return (
+    <a href="/post_detail/${content.slug}">
+      <article className="overflow-hidden floored-lg shadow transition hover:shadow-lg mx-2 my-2 p-2">
+        <time className="block text-xs text-gray-500">
+          {getTime(created_at)}
+        </time>
+        <h1>{title}</h1>
+        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+          {description}
+        </p>
+        <div className="flex justify-center">
+          <div className="justify-center group inline-flex items-center gap-1 text-sm font-medium text-blue-600">
+            Read more
+            <span
+              aria-hidden="true"
+              className="block transition-all group-hover:ms-0.5 rtl:rotate-180"
+            >
+              &rarr;
+            </span>
+          </div>{" "}
+        </div>
+      </article>
+    </a>
+  );
+}
+
+export function Post() {
+  const url = "http://127.0.0.1:8000/fetch/";
+  const [post, setPost] = useState<Post[]>([]);
+  async function getPost() {
+    try {
+      const response = await axios(url);
+      setPost(response.data.posts);
+    } catch (error: any) {
+      console.log(error.response);
+    }
+  }
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  return (
+    <div>
+      {post.map((Post: Post) => (
+        <NewsComponent {...Post} />
+      ))}
+    </div>
+  );
+}
+
 export default Temperature;

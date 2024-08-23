@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import axios from "axios";
-import Temperature from "./request";
+import Temperature  from "./request";
+import { Post } from "./request";
 function BookList() {
   return (
     <div className="booklist">
@@ -118,7 +119,7 @@ function Landing() {
             &#10095;{" "}
           </button>
         </div>
-  
+        <Post/>
       </div>
     </div>
   );
